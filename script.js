@@ -32,7 +32,9 @@ function onCardClick(e) {
         else {
             currentEquation.push(e.target.innerText);
             if(currentEquation.length === 3) {
-                console.log('Solve the equation');
+                console.log(solveEquation()); 
+                clearSelected();
+                return;
             }
             // console.log(currentEquation);
             // console.log(currentEquation.length);
@@ -86,6 +88,55 @@ function randomCardValue() {;
     ));
 }
 
+function solveEquation() {
+    // Make sure when this equation is called again, answer is set to 0
+    let answer = 0;
+    // console.log('Solve the equation!');
+    const firstCard = parseInt(currentEquation[0]);
+    const secondCard = parseInt(currentEquation[2]);
+    const equationOperator = currentEquation[1];
+    // console.log(equationOperator);
+
+    switch (equationOperator) {
+        case '+':
+            // console.log('Addition');
+            answer = firstCard + secondCard;
+            return answer;
+        case '−':
+            // console.log('Subtraction');
+            answer = firstCard - secondCard;
+            return answer;
+        case '×':
+            // console.log('Multiplication');
+            answer = firstCard * secondCard;
+            return answer;
+        case '÷':
+            // console.log('Division');
+            answer = firstCard / secondCard;
+            return answer;
+        default:
+            break;
+    }
+    // console.log(firstCard + ' ' + secondCard);
+}
+
+// When valid equation is formed, remove all selected elements (includes cards and operators)
+function clearSelected() {
+    currentEquation = [];
+    selectedCounter = 0;
+    operatorCounter = 0;
+    isOperatorSelected = 0;
+    checkUI();
+
+    // Removes selected cards
+    cards.forEach(card => {
+        if(card.classList.contains('selected')){
+        card.style.backgroundColor = '';
+        card.classList.remove('selected');
+        }
+    })
+}
+
 // De-selects operator is no card is selected
 function checkUI() {
     if(selectedCounter < 1) {
@@ -98,11 +149,6 @@ function checkUI() {
             }
         })
     }
-}
-
-// When valid equation is formed, remove all selected elements (includes cards and operators)
-function clearSelected() {
-
 }
 
 function init() {
