@@ -4,6 +4,7 @@ const operatorList = document.querySelector('#operator-btn');
 const operators = document.querySelectorAll('.operator');
 let selectedCounter = 0;
 let isOperatorSelected = false;
+let operatorCounter = 0;
 
 function onHoverOver(e) {
     if(!e.target.classList.contains('selected')) {
@@ -45,16 +46,22 @@ function onCardClick(e) {
 function onOperatorClick(e) {
     if(selectedCounter >= 1) {
         if(!e.target.classList.contains('selected')) {
+            // Allows only 1 operator to be selected at a time
+            operators.forEach(operator => {
+                operator.classList.remove('selected')
+                operator.style.backgroundColor = '';
+            });
+            
             e.target.style.backgroundColor = '#90EE90';
             e.target.classList.add('selected');
             isOperatorSelected = true;
-            console.log(isOperatorSelected);
+            // console.log(isOperatorSelected);
         }
         else {
             e.target.style.backgroundColor = '';
             e.target.classList.remove('selected');
             isOperatorSelected = false;
-            console.log(isOperatorSelected);
+            // console.log(isOperatorSelected);
         }
     }
 }
