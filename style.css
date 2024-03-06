@@ -1,5 +1,5 @@
 body {
-    background: #1b4158;
+    background-color: #1b4158;
     /* font-family: Monocraft; */
 }
 
@@ -25,7 +25,7 @@ body {
     border: 15px solid;
     border-color: #A1662F;
     border-radius: 15px;
-    background: #4aad4a;
+    background-color: #4aad4a;
     position: relative;
     list-style-type: none;
     display: flex;
@@ -42,7 +42,7 @@ body {
 .cards li {
    
     border: 3px solid black;
-    background: white;
+    background-color: white;
     width: 125px;
     height: 175px;
     text-align: center;
@@ -50,6 +50,10 @@ body {
     border-radius: 15px;
     margin: 10px;
 }
+
+/* .cards li:hover {
+    background-color: #ccc;
+} */
 
 .operators {
     /* border: 3px solid black; */
@@ -66,7 +70,7 @@ body {
 
 .operators li {
     border: 2px solid black;
-    background: white;
+    background-color: white;
     width: 70px;
     height: 70px;
     text-align: center;
