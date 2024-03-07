@@ -28,39 +28,39 @@ function onMouseLeave(e) {
 
 function onCardClick(e) {
     e.preventDefault();
-
-    if(e.target.classList.contains('card') && !e.target.classList.contains('selected')) {
-        if(!isOperatorSelected && selectedCounter > 0) {
-            alert('Please select an operator before selecting another card!');
-            return;
-        }
-        else {
-            currentEquation.push(e.target.innerText);
-            usedCards.push(e.target.id);
-            // console.log(usedCards);
-            if(currentEquation.length === 3) {
-                const answer = solveEquation();
-                clearSelected();
-                updateDOM(answer);
+    if(!e.target.classList.contains('used')) {
+        if(e.target.classList.contains('card') && !e.target.classList.contains('selected')) {
+            if(!isOperatorSelected && selectedCounter > 0) {
+                alert('Please select an operator before selecting another card!');
                 return;
             }
-            e.target.style.backgroundColor = '#90EE90';
-            e.target.classList.add('selected');
-            e.target.classList.add('used');
-            selectedCounter += 1;
+            else {
+                currentEquation.push(e.target.innerText);
+                usedCards.push(e.target.id);
+                console.log(usedCards);
+                if(currentEquation.length === 3) {
+                    const answer = solveEquation();
+                    clearSelected();
+                    updateDOM(answer);
+                    return;
+                }
+                e.target.style.backgroundColor = '#90EE90';
+                e.target.classList.add('selected');
+                // e.target.classList.add('used');
+                selectedCounter += 1;
+            }
+            
         }
-        
+        else {
+            currentEquation = [];
+            usedCards = [];
+            e.target.classList.remove('selected');
+            // e.target.classList.remove('used');
+            e.target.style.backgroundColor = '';
+            selectedCounter -= 1;
+        }
     }
-    else {
-        currentEquation = [];
-        usedCards = [];
-        e.target.classList.remove('selected');
-        e.target.classList.remove('used');
-        e.target.style.backgroundColor = '';
-        selectedCounter -= 1;
-    }
-
-    checkUI();
+    autoDeselectOperator();
 }
 
 function onOperatorClick(e) {
@@ -131,7 +131,7 @@ function clearSelected() {
     selectedCounter = 0;
     operatorCounter = 0;
     isOperatorSelected = 0;
-    checkUI();
+    autoDeselectOperator();
 
     // Removes selected cards
     cards.forEach(card => {
@@ -147,6 +147,7 @@ function updateDOM(answer) {
     const firstCard = document.getElementById(usedCards[0]);
     const secondCard = document.getElementById(usedCards[1]);;
     
+    firstCard.classList.add('used');
     firstCard.style.setProperty('background-color', '#4aad4a');
     firstCard.style.borderColor = '#4aad4a';
     firstCard.innerText = ''
@@ -154,11 +155,10 @@ function updateDOM(answer) {
     secondCard.innerText = answer;
 
     usedCards = [];
-    console.log(document.querySelectorAll('.card'));
 }
 
 // De-selects operator is no card is selected
-function checkUI() {
+function autoDeselectOperator() {
     if(selectedCounter < 1) {
         operators.forEach(operator => {
             if(operator.classList.contains('selected')) {
@@ -188,4 +188,4 @@ function init() {
 init();
 
 // (FIXED) Bug: currentEquation becomes 0 when clicking 2nd card before selecting an operator
-// Bug: 
+// Bug: used cards interactions by click 
