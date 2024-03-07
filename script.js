@@ -2,13 +2,16 @@ const cards = document.querySelectorAll('.card');
 const cardList = document.querySelector('#card-btn');
 const operatorList = document.querySelector('#operator-btn');
 const operators = document.querySelectorAll('.operator');
+
 let currentEquation = [];
+let usedCards = [];
+
 let selectedCounter = 0;
 let isOperatorSelected = false;
 let operatorCounter = 0;
 
 function onHoverOver(e) {
-    if(!e.target.classList.contains('selected')) {
+    if(!e.target.classList.contains('selected') && !e.target.classList.contains('used')) {
         if(e.target.classList.contains('card') || e.target.classList.contains('operator')) {
             e.target.style.backgroundColor = '#ccc';
         }
@@ -16,7 +19,7 @@ function onHoverOver(e) {
 }
 
 function onMouseLeave(e) {
-    if(!e.target.classList.contains('selected')) {
+    if(!e.target.classList.contains('selected') && !e.target.classList.contains('used')) {
         if(e.target.classList.contains('card') || e.target.classList.contains('operator')) {
             e.target.style.backgroundColor = '';
         }
@@ -24,6 +27,8 @@ function onMouseLeave(e) {
 }
 
 function onCardClick(e) {
+    e.preventDefault();
+
     if(e.target.classList.contains('card') && !e.target.classList.contains('selected')) {
         if(!isOperatorSelected && selectedCounter > 0) {
             alert('Please select an operator before selecting another card!');
@@ -31,24 +36,27 @@ function onCardClick(e) {
         }
         else {
             currentEquation.push(e.target.innerText);
+            usedCards.push(e.target.id);
+            // console.log(usedCards);
             if(currentEquation.length === 3) {
-                console.log(solveEquation()); 
+                const answer = solveEquation();
                 clearSelected();
+                updateDOM(answer);
                 return;
             }
-            // console.log(currentEquation);
-            // console.log(currentEquation.length);
             e.target.style.backgroundColor = '#90EE90';
             e.target.classList.add('selected');
+            e.target.classList.add('used');
             selectedCounter += 1;
         }
         
     }
     else {
         currentEquation = [];
-        // console.log(currentEquation);
-        e.target.style.backgroundColor = '';
+        usedCards = [];
         e.target.classList.remove('selected');
+        e.target.classList.remove('used');
+        e.target.style.backgroundColor = '';
         selectedCounter -= 1;
     }
 
@@ -59,7 +67,7 @@ function onOperatorClick(e) {
     if(selectedCounter >= 1) {
         if(!e.target.classList.contains('selected') && e.target.classList.contains('operator')) {
             currentEquation.push(e.target.innerText);
-            // console.log(currentEquation);
+            
             // Allows only 1 operator to be selected at a time
             operators.forEach(operator => {
                 operator.classList.remove('selected')
@@ -69,15 +77,12 @@ function onOperatorClick(e) {
             e.target.style.backgroundColor = '#90EE90';
             e.target.classList.add('selected');
             isOperatorSelected = true;
-            // console.log(isOperatorSelected);
         }
         else {
             currentEquation.splice(1);
-            // console.log(currentEquation);
             e.target.style.backgroundColor = '';
             e.target.classList.remove('selected');
             isOperatorSelected = false;
-            // console.log(isOperatorSelected);
         }
     }
 }
@@ -137,6 +142,21 @@ function clearSelected() {
     })
 }
 
+// Removes used cards from the DOM and updated 2nd card as the answer to equation
+function updateDOM(answer) {
+    const firstCard = document.getElementById(usedCards[0]);
+    const secondCard = document.getElementById(usedCards[1]);;
+    
+    firstCard.style.setProperty('background-color', '#4aad4a');
+    firstCard.style.borderColor = '#4aad4a';
+    firstCard.innerText = ''
+    
+    secondCard.innerText = answer;
+
+    usedCards = [];
+    console.log(document.querySelectorAll('.card'));
+}
+
 // De-selects operator is no card is selected
 function checkUI() {
     if(selectedCounter < 1) {
@@ -166,3 +186,6 @@ function init() {
 
 
 init();
+
+// (FIXED) Bug: currentEquation becomes 0 when clicking 2nd card before selecting an operator
+// Bug: 
