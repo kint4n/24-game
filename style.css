@@ -83,5 +83,14 @@ body {
     width: 70px;
     height: 40px;
     transform: translateX(-70%);
-    
+}
+
+.new-game {
+    font-family: Monocraft;
+    background-color: lawngreen;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 70px;
+    height: 40px;
+    transform: translateX(410px);
 }

@@ -3,6 +3,7 @@ const cardList = document.querySelector('#card-btn');
 const operatorList = document.querySelector('#operator-btn');
 const operators = document.querySelectorAll('.operator');
 const resetBtn = document.querySelector('.reset');
+const newGameBtn = document.querySelector('.new-game');
 
 let currentEquation = [];
 let selectedCards = [];
@@ -96,9 +97,15 @@ function onOperatorClick(e) {
 function onResetClick() {
     if(confirm('Are you sure you want to reset the game?')) {
         resetGameState();
-    }
-    
+    } 
 }
+
+function onNewGameClick() {
+    if(confirm('Do you want to start a new game?')) {
+        newGameState();
+    }
+}
+
 
 function randomCardValue() {;
     cards.forEach(card => 
@@ -201,6 +208,11 @@ function checkGameState() {
     }    
 }
 
+function newGameState() {
+    resetGameState();
+    init();
+}
+
 function resetGameState() {
     // TODO: 
     while(cardList.firstChild) {
@@ -228,7 +240,6 @@ function createCard(id, classes, value) {
 function getInitialCardsValues (){
     let initialCardValues = [];
     cards.forEach(card => initialCardValues.push(card.innerHTML));
-    console.log(initialCardValues);
 
     return initialCardValues;
 }
@@ -246,8 +257,8 @@ function init() {
     operatorList.addEventListener('click', onOperatorClick);
 
     resetBtn.addEventListener('click', onResetClick);
-
-
+    newGameBtn.addEventListener('click', onNewGameClick);
+    
 }
 
 init();
