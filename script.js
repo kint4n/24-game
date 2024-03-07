@@ -2,9 +2,11 @@ const cards = document.querySelectorAll('.card');
 const cardList = document.querySelector('#card-btn');
 const operatorList = document.querySelector('#operator-btn');
 const operators = document.querySelectorAll('.operator');
+const resetBtn = document.querySelector('.reset');
 
 let currentEquation = [];
 let selectedCards = [];
+let initialCardValues = [];
 // let remainingCards = 
 
 let selectedCardsCounter = 0;
@@ -89,6 +91,13 @@ function onOperatorClick(e) {
             isOperatorSelected = false;
         }
     }
+}
+
+function onResetClick() {
+    if(confirm('Are you sure you want to reset the game?')) {
+        resetGameState();
+    }
+    
 }
 
 function randomCardValue() {;
@@ -180,7 +189,7 @@ function autoDeselectOperator() {
 }
 
 function checkGameState() {
-    // TODO
+    // TODO:
     if(remainingCardsCounter === 1) {
         const lastRemainingCard = document.querySelector('li:not(.used)')
         if(lastRemainingCard.innerText != '24') {
@@ -192,9 +201,41 @@ function checkGameState() {
     }    
 }
 
+function resetGameState() {
+    // TODO: 
+    while(cardList.firstChild) {
+        cardList.firstChild.remove();
+    }
+
+    for(let i = 0; i < 4; i++) {
+        const card = createCard(i, 'card', initialCardValues[i]);
+        cardList.appendChild(card);
+    }
+
+}
+
+function createCard(id, classes, value) {
+    // TODO:
+    const li = document.createElement('li');
+    li.appendChild(document.createTextNode(value));
+    li.className = classes;
+    li.id = id;
+    
+
+    return li;
+}
+
+function getInitialCardsValues (){
+    let initialCardValues = [];
+    cards.forEach(card => initialCardValues.push(card.innerHTML));
+    console.log(initialCardValues);
+
+    return initialCardValues;
+}
+
 function init() {
     randomCardValue();
-
+    initialCardValues = getInitialCardsValues();
     // Event listeners
     cardList.addEventListener('mouseover', onHoverOver);
     cardList.addEventListener('mouseout', onMouseLeave);
@@ -203,8 +244,11 @@ function init() {
     operatorList.addEventListener('mouseout', onMouseLeave);
     operatorList.addEventListener('mouseover', onHoverOver);
     operatorList.addEventListener('click', onOperatorClick);
-}
 
+    resetBtn.addEventListener('click', onResetClick);
+
+
+}
 
 init();
 

@@ -45,7 +45,7 @@ body {
     width: 125px;
     height: 175px;
     text-align: center;
-    line-height: 175px;
+    line-height: 180px;
     border-radius: 15px;
     margin: 10px;
 }
@@ -72,5 +72,16 @@ body {
     line-height: 70px;
     border-radius: 15px;
     margin: 5px 15px 5px 15px
+    
+}
+
+.reset {
+    font-family: Monocraft;
+    background-color: rgb(223, 66, 66);
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 70px;
+    height: 40px;
+    transform: translateX(-70%);
     
 }
