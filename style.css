@@ -40,7 +40,6 @@ body {
 }
 
 .cards li {
-   
     border: 3px solid black;
     background-color: white;
     width: 125px;
@@ -50,10 +49,6 @@ body {
     border-radius: 15px;
     margin: 10px;
 }
-
-/* .cards li:hover {
-    background-color: #ccc;
-} */
 
 .operators {
     /* border: 3px solid black; */
